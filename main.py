@@ -11,35 +11,25 @@ if __name__ == '__main__':
 	else:
 		if sys.argv[1]=='--build':
 			print("wait...")
+			functions.drop_tables()
 			functions.create_table()
+			functions.create_table1()
+			functions.create_table2()
+			functions.create_table3()
+			functions.create_table4()
 			functions.data_entry()
-			listado = functions.data_out()
-
-			with doc.head:
-			    link(rel='stylesheet', href='style.css')
-			    script(type='text/javascript', src='script.js')
-
-			with doc:
-			    with div(id='header').add(ol()):
-			        for i in listado:
-			        	yy = list(i)
-			        	y = yy[0]
-			        	string = "Id: " + yy[0] +  ". -Category: " + yy[1] + ". -Level: " + yy[2]
-			        	li(a(string.title()))
-
-			    with div():
-			        attr(cls='body')
-			        p('David Parra.')
-
-			Html_file= open("categoriesPage.html","w")
-			Html_file.write(str(doc))
-			Html_file.close()
-			print("List Categories page created!")
+			
+			print("List Categories DB has been builded!")
 
 		elif sys.argv[1]=='--render':
+			print("wait...")
 			t = sys.argv[2]
 			string = functions.specific_data_out(t)
-			stringList = list(string)
+			if (string is None):
+				print("The ID: " + t + "  not exist")
+				sys.exit()
+
+			stringList = list(string)#list
 
 			with doc.head:
 			    link(rel='stylesheet', href='style.css')
@@ -47,14 +37,17 @@ if __name__ == '__main__':
 
 			with doc:
 			    with div(id='header').add(ol()):
-			    	for i in stringList:
-			    		li(i.title())
+			    	for i in string:
+			    		yy = list(i)
+			    		y = yy[0]
+			    		string = "Id: " + str(yy[0]) +  ". -Category: " + str(yy[1]) + ". -Level: " + str(yy[2])
+			    		li(a(string.title()))
 
 			    with div():
 			        attr(cls='body')
 			        p('David Parra.')
 
-			Html_file= open("specificCategory.html","w")
+			Html_file= open("" + t + ".html","w")
 			Html_file.write(str(doc))
 			Html_file.close()
 
